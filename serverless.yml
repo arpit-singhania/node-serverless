@@ -1,0 +1,24 @@
+service: sample-express-serverless
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: ap-south-1
+  memorySize: 128
+  deploymentBucket:
+    name: serverless-packages-deployment
+    maxPreviousDeploymentArtifacts: 3
+    blockPublicAccess: true
+
+functions:
+  app-dev:
+    handler: handler.handler
+    events: 
+      - http: 
+          path: /
+          method: ANY
+          cors: true
+      - http: 
+          path: /{proxy+}
+          method: ANY
+          cors: true
